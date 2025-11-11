@@ -117,6 +117,38 @@ export default function RegistrationForm({
     }
   };
 
+  const handleReset = () => {
+    setFormData({
+      full_name: "",
+      father_name: "",
+      course_program: "",
+      selected_jee: false,
+      selected_neet: false,
+      exam_rank: null,
+      college_joined: "",
+      stream_taken: "",
+      pg_completed: false,
+      pg_stream: "",
+      pg_completion_year: null,
+      other_exams: "",
+      address: "",
+      company_name: "",
+      currently_working: false,
+      position_role: "",
+      work_from_year: new Date().getFullYear(),
+      work_to_year: null,
+      total_experience: 0,
+      roles: [],
+      industries: [],
+      skills: [],
+    });
+    setCurrentRole("");
+    setCurrentIndustry("");
+    setCurrentSkill("");
+    setError(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   if (submitted) {
     return (
       <div className="min-h-screen  flex items-center justify-center p-4">
@@ -322,7 +354,7 @@ export default function RegistrationForm({
             </section>
 
             <section className="space-y-6">
-              <div className="border-l-4 border-yellow-500 pl-4">
+              <div className="border-l-4 border-blue-600 pl-4">
                 <h2 className="text-2xl font-bold text-gray-900">
                   Post-Graduation Details
                 </h2>
@@ -400,7 +432,7 @@ export default function RegistrationForm({
             </section>
 
             <section className="space-y-6">
-              <div className="border-l-4 border-green-600 pl-4">
+              <div className="border-l-4 border-blue-600 pl-4">
                 <h2 className="text-2xl font-bold text-gray-900">
                   Permanent Address
                 </h2>
@@ -423,7 +455,7 @@ export default function RegistrationForm({
             </section>
 
             <section className="space-y-6">
-              <div className="border-l-4 border-red-600 pl-4">
+              <div className="border-l-4 border-blue-600 pl-4">
                 <h2 className="text-2xl font-bold text-gray-900">
                   Professional Details
                 </h2>
@@ -679,13 +711,22 @@ export default function RegistrationForm({
             </section>
 
             <div className="pt-6 border-t border-gray-200">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-primary text-primary-50 py-4 rounded-lg hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? "Submitting..." : "Submit Registration"}
-              </button>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="w-full bg-white text-primary-700 py-4 rounded-lg border-2 border-primary-700 hover:bg-primary-50 transition-all duration-300 shadow-lg hover:shadow-xl text-lg font-bold"
+                >
+                  Reset Form
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary-700 text-white py-4 rounded-lg hover:bg-primary-800 transition-all duration-300 shadow-lg hover:shadow-xl text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Registration"}
+                </button>
+              </div>
             </div>
           </form>
         </div>

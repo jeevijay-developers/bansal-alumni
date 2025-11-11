@@ -38,7 +38,7 @@ export default function LandingPage({
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block mb-6 px-4 py-2 bg-primary-900/10 backdrop-blur-sm rounded-full border border-primary-900/20">
+          <div className="inline-block mb-6 px-4 py-2 bg-white/40 backdrop-blur-sm rounded-full border border-primary-900/20">
             <span className="text-sm font-medium">
               Once a BANSALite, Always a BANSALite
             </span>
@@ -221,6 +221,216 @@ export default function LandingPage({
       </section>
 
       <section className="py-16 sm:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4 px-4 py-2 bg-primary-100 rounded-full border border-primary-200">
+              <span className="text-sm font-bold text-primary-900">
+                LEGACY OF EXCELLENCE
+              </span>
+            </div>
+            <h3 className="text-3xl sm:text-4xl font-bold text-primary-900 mb-4">
+              Our All India Rank 1 Achievers
+            </h3>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-6">
+              BANSAL CLASSES has produced 5 AIR 1 and 6 AIR 2 rankers in IIT
+              JEE-Advanced — a testament to dedication, hard work, and the
+              transformative power of quality education.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-primary-700">
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full overflow-hidden border-4 border-primary-700">
+                    <img
+                      src="/Alumnis/nitinsquare.png"
+                      alt="Nitin Gupta"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-primary-900 font-bold text-sm shadow-lg">
+                    #1
+                  </div>
+                </div>
+              </div>
+              <h4 className="text-xl font-bold text-primary-900 mb-2 text-center">
+                Nitin Gupta
+              </h4>
+              <p className="text-primary-700 font-semibold text-center mb-3">
+                AIR 1 | IIT JEE 2000
+              </p>
+              <p className="text-gray-600 text-center text-sm leading-relaxed">
+                The pioneer who set the benchmark. Nitin's achievement marked
+                the beginning of BANSAL's legacy of producing toppers who went
+                on to excel globally.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-primary-700 lg:col-span-1 md:col-span-2 lg:row-span-2">
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative">
+                  <div className="w-32 h-32 bg-gray-100 rounded-full overflow-hidden border-4 border-primary-700">
+                    <img
+                      src="/Alumnis/dungsquare.png"
+                      alt="Dungra Ram Choudhary"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -top-3 -right-3 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-primary-900 font-bold text-lg shadow-lg">
+                    #1
+                  </div>
+                </div>
+              </div>
+              <h4 className="text-2xl font-bold text-primary-900 mb-2 text-center">
+                Dungra Ram Choudhary
+              </h4>
+              <p className="text-primary-700 font-semibold text-center mb-4 text-lg">
+                AIR 1 | IIT JEE 2002
+              </p>
+              <div className="bg-white p-4 rounded-lg mb-4">
+                <p className="text-sm text-primary-900 font-semibold mb-2 text-center">
+                  📖 A Story That Inspires Millions
+                </p>
+              </div>
+              <p className="text-gray-700 text-center text-sm leading-relaxed mb-3">
+                Born in a small village in Nagaur district, Rajasthan, Dungra
+                Ram was a Hindi medium student from a farmer's family. Growing
+                up in a <span className="font-semibold">kachcha house</span>{" "}
+                with limited resources, he faced immense hardships.
+              </p>
+              <p className="text-gray-700 text-center text-sm leading-relaxed mb-3">
+                Despite these challenges, his determination and BANSAL's
+                guidance helped him achieve the impossible —{" "}
+                <span className="font-bold text-primary-900">
+                  All India Rank 1
+                </span>{" "}
+                in IIT JEE.
+              </p>
+              <p className="text-primary-800 text-center text-sm font-semibold italic">
+                "From a village classroom to conquering IIT JEE — Dungra Ram's
+                journey proves that dreams know no boundaries."
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-primary-700">
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full overflow-hidden border-4 border-primary-700">
+                    <img
+                      src="/Alumnis/achinsquare.png"
+                      alt="Achin Bansal"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-primary-900 font-bold text-sm shadow-lg">
+                    #1
+                  </div>
+                </div>
+              </div>
+              <h4 className="text-xl font-bold text-primary-900 mb-2 text-center">
+                Achin Bansal
+              </h4>
+              <p className="text-primary-700 font-semibold text-center mb-3">
+                AIR 1 | IIT JEE 2007
+              </p>
+              <p className="text-gray-600 text-center text-sm leading-relaxed">
+                A brilliant mind with exceptional analytical skills. Achin's
+                dedication to perfection and problem-solving made him stand out
+                among thousands of aspirants.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-primary-700">
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full overflow-hidden border-4 border-primary-700">
+                    <img
+                      src="/Alumnis/shitikantsquare.png"
+                      alt="Shitikanth"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-primary-900 font-bold text-sm shadow-lg">
+                    #1
+                  </div>
+                </div>
+              </div>
+              <h4 className="text-xl font-bold text-primary-900 mb-2 text-center">
+                Shitikanth
+              </h4>
+              <p className="text-primary-700 font-semibold text-center mb-3">
+                AIR 1 | IIT JEE 2008
+              </p>
+              <p className="text-gray-600 text-center text-sm leading-relaxed">
+                Known for his consistent performance and strategic approach.
+                Shitikanth's focus and discipline made him a role model for
+                future aspirants.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-primary-700">
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full overflow-hidden border-4 border-primary-700">
+                    <img
+                      src="/Alumnis/satvatsquare.png"
+                      alt="Satvat Jagwani"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center text-primary-900 font-bold text-sm shadow-lg">
+                    #1
+                  </div>
+                </div>
+              </div>
+              <h4 className="text-xl font-bold text-primary-900 mb-2 text-center">
+                Satvat Jagwani
+              </h4>
+              <p className="text-primary-700 font-semibold text-center mb-3">
+                AIR 1 | IIT JEE 2015
+              </p>
+              <p className="text-gray-600 text-center text-sm leading-relaxed">
+                The most recent AIR 1 from BANSAL, Satvat combined modern
+                learning techniques with traditional hard work to achieve
+                excellence.
+              </p>
+            </div>
+          </div>
+
+          {/* <div className="bg-primary-700 rounded-2xl shadow-2xl p-8 sm:p-12 text-primary-50 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-200 rounded-full opacity-10 blur-3xl"></div>
+            <div className="relative text-center">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-6">
+                The BANSAL Legacy
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                  <div className="text-4xl font-bold text-white mb-2">5×</div>
+                  <p className="text-primary-100 font-semibold">AIR 1</p>
+                  <p className="text-sm text-primary-200 mt-1">
+                    All India Rank 1
+                  </p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                  <div className="text-4xl font-bold text-white mb-2">6×</div>
+                  <p className="text-primary-100 font-semibold">AIR 2</p>
+                  <p className="text-sm text-primary-200 mt-1">
+                    All India Rank 2
+                  </p>
+                </div>
+              </div>
+              <p className="text-white mt-8 text-lg max-w-3xl mx-auto">
+                These remarkable achievements reflect BANSAL's commitment to
+                nurturing talent, fostering excellence, and transforming dreams
+                into reality.
+              </p>
+            </div>
+          </div> */}
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-24 ">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-primary-700 rounded-2xl shadow-2xl p-8 sm:p-12 text-primary-50 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary-200 rounded-full opacity-10 blur-3xl"></div>

@@ -1,4 +1,5 @@
 export interface AlumniRegistration {
+  id?: number;
   full_name: string;
   father_name: string;
   course_program: string;
@@ -21,4 +22,5 @@ export interface AlumniRegistration {
   roles: string[];
   industries: string[];
   skills: string[];
+  created_at?: string;
 }
