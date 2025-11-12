@@ -45,7 +45,7 @@ export default function LandingPage({
           </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Welcome to BANSALites
+            Welcome BANSALites
           </h2>
           <p className="text-xl sm:text-2xl mb-4 text-primary-100 font-light">
             BANSAL Alumni Association
