@@ -22,7 +22,6 @@ function App() {
       window.history.pushState({}, "", "/");
     }
   };
-
   // Initial page based on URL
   useState(() => {
     if (path === "/admin") {
