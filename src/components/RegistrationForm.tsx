@@ -14,12 +14,31 @@ export default function RegistrationForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Generate year ranges for Bansal study years (1981-82 to 2024-25)
+  const generateBansalStudyYears = () => {
+    const years = [];
+    for (let year = 1981; year <= 2024; year++) {
+      years.push(`${year}-${(year + 1).toString().slice(-2)}`);
+    }
+    return years;
+  };
+
+  // Generate selection years (1981 to 2025)
+  const generateSelectionYears = () => {
+    const years = [];
+    for (let year = 1981; year <= 2025; year++) {
+      years.push(year.toString());
+    }
+    return years;
+  };
+
   const [formData, setFormData] = useState<AlumniRegistration>({
     full_name: "",
     father_name: "",
     course_program: "",
-    selected_jee: false,
-    selected_neet: false,
+    competitive_exam: "",
+    bansal_study_year: "",
+    selection_year: "",
     exam_rank: null,
     college_joined: "",
     stream_taken: "",
@@ -122,8 +141,9 @@ export default function RegistrationForm({
       full_name: "",
       father_name: "",
       course_program: "",
-      selected_jee: false,
-      selected_neet: false,
+      competitive_exam: "",
+      bansal_study_year: "",
+      selection_year: "",
       exam_rank: null,
       college_joined: "",
       stream_taken: "",
@@ -262,44 +282,64 @@ export default function RegistrationForm({
                 />
               </div>
 
-              <div className="grid sm:grid-cols-3 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Selected in JEE?
-                  </label>
-                  <select
-                    name="selected_jee"
-                    value={formData.selected_jee ? "true" : "false"}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        selected_jee: e.target.value === "true",
-                      }))
-                    }
-                    className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                  >
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  In which year did you study at Bansal Classes?{" "}
+                  <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="bansal_study_year"
+                  value={formData.bansal_study_year}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                >
+                  <option value="">Select Year</option>
+                  {generateBansalStudyYears().map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Competitive Exam <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="competitive_exam"
+                  value={formData.competitive_exam}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                >
+                  <option value="">Select Exam</option>
+                  <option value="JEE ADVANCED">JEE ADVANCED</option>
+                  <option value="NEET">NEET</option>
+                </select>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Selected in NEET?
+                    In which year did you get selection?{" "}
+                    <span className="text-red-500">*</span>
                   </label>
                   <select
-                    name="selected_neet"
-                    value={formData.selected_neet ? "true" : "false"}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        selected_neet: e.target.value === "true",
-                      }))
-                    }
+                    name="selection_year"
+                    value={formData.selection_year}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                   >
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
+                    <option value="">Select Year</option>
+                    <option value="unselected">Unselected</option>
+                    {generateSelectionYears().map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -313,9 +353,9 @@ export default function RegistrationForm({
                     value={formData.exam_rank || ""}
                     onChange={handleInputChange}
                     min="1"
-                    max="100"
+                    max="15000"
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    placeholder="1-100"
+                    placeholder="1-15000"
                   />
                 </div>
               </div>

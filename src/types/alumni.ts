@@ -3,9 +3,10 @@ export interface AlumniRegistration {
   full_name: string;
   father_name: string;
   course_program: string;
-  selected_jee: boolean;
-  selected_neet: boolean;
-  exam_rank: number | null;
+  competitive_exam: string; // "JEE ADVANCED", "NEET", or ""
+  bansal_study_year: string; // "1981-82", "1982-83", etc.
+  selection_year: string; // "1981", "1982", etc. or "unselected"
+  exam_rank: number | null; // 1-15000 or null
   college_joined: string;
   stream_taken: string;
   pg_completed: boolean;
