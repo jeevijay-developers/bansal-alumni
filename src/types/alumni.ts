@@ -23,5 +23,7 @@ export interface AlumniRegistration {
   roles: string[];
   industries: string[];
   skills: string[];
+  email?: string; // new: contact email
+  phone_number?: string; // new: contact phone number
   created_at?: string;
 }
