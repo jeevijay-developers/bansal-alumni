@@ -17,13 +17,15 @@ export interface AlumniRegistration {
   company_name: string;
   currently_working: boolean;
   position_role: string;
-  work_from_year: number;
+  work_from_year: number | null;
   work_to_year: number | null;
-  total_experience: number;
+  total_experience: number | null;
   roles: string[];
   industries: string[];
   skills: string[];
   email?: string; // new: contact email
   phone_number?: string; // new: contact phone number
+  verified?: boolean; // admin verification status
   created_at?: string;
+  updated_at?: string;
 }

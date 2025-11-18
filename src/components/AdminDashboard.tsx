@@ -25,6 +25,9 @@ export default function AdminDashboard({
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRecord, setSelectedRecord] =
     useState<AlumniRegistration | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [updatingVerification, setUpdatingVerification] = useState<number | null>(null);
 
   // Check if user is already authenticated
   useEffect(() => {
@@ -81,6 +84,35 @@ export default function AdminDashboard({
     }
   };
 
+  const toggleVerification = async (id: number, currentStatus: boolean) => {
+    setUpdatingVerification(id);
+    try {
+      const { error } = await supabase
+        .from("alumni_registrations")
+        .update({ verified: !currentStatus })
+        .eq("id", id);
+
+      if (error) throw error;
+
+      // Update local state
+      setRegistrations(prev =>
+        prev.map(reg =>
+          reg.id === id ? { ...reg, verified: !currentStatus } : reg
+        )
+      );
+
+      // Update selected record if it's the one being modified
+      if (selectedRecord?.id === id) {
+        setSelectedRecord({ ...selectedRecord, verified: !currentStatus });
+      }
+    } catch (error) {
+      console.error("Error updating verification:", error);
+      alert("Failed to update verification status");
+    } finally {
+      setUpdatingVerification(null);
+    }
+  };
+
   const exportToCSV = () => {
     if (registrations.length === 0) return;
 
@@ -88,9 +120,12 @@ export default function AdminDashboard({
       "ID",
       "Full Name",
       "Father's Name",
+      "Email",
+      "Phone Number",
       "Course/Program",
-      "Selected JEE",
-      "Selected NEET",
+      "Bansal Study Year",
+      "Competitive Exam",
+      "Selection Year",
       "Exam Rank",
       "College Joined",
       "Stream Taken",
@@ -108,6 +143,7 @@ export default function AdminDashboard({
       "Roles",
       "Industries",
       "Skills",
+      "Verified",
       "Registration Date",
     ];
 
@@ -115,9 +151,11 @@ export default function AdminDashboard({
       reg.id || "",
       reg.full_name || "",
       reg.father_name || "",
+      reg.email || "",
+      reg.phone_number || "",
       reg.course_program || "",
-      reg.competitive_exam || "",
       reg.bansal_study_year || "",
+      reg.competitive_exam || "",
       reg.selection_year || "",
       reg.exam_rank || "",
       reg.college_joined || "",
@@ -136,6 +174,7 @@ export default function AdminDashboard({
       reg.roles?.join("; ") || "",
       reg.industries?.join("; ") || "",
       reg.skills?.join("; ") || "",
+      reg.verified ? "Yes" : "No",
       reg.created_at ? new Date(reg.created_at).toLocaleString() : "",
     ]);
 
@@ -166,9 +205,22 @@ export default function AdminDashboard({
     (reg) =>
       reg.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       reg.father_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reg.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      reg.phone_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       reg.college_joined?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       reg.company_name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredRegistrations.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedRegistrations = filteredRegistrations.slice(startIndex, endIndex);
+
+  // Reset to first page when search term changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   // Login Page
   if (!isAuthenticated) {
@@ -279,7 +331,7 @@ export default function AdminDashboard({
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-sm font-semibold text-gray-600 mb-2">
               Total Registrations
@@ -290,9 +342,17 @@ export default function AdminDashboard({
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-sm font-semibold text-gray-600 mb-2">
-              Currently Working
+              Verified
             </h3>
             <p className="text-3xl font-bold text-green-600">
+              {registrations.filter((r) => r.verified).length}
+            </p>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-sm font-semibold text-gray-600 mb-2">
+              Currently Working
+            </h3>
+            <p className="text-3xl font-bold text-blue-600">
               {registrations.filter((r) => r.currently_working).length}
             </p>
           </div>
@@ -300,7 +360,7 @@ export default function AdminDashboard({
             <h3 className="text-sm font-semibold text-gray-600 mb-2">
               PG Completed
             </h3>
-            <p className="text-3xl font-bold text-blue-600">
+            <p className="text-3xl font-bold text-purple-600">
               {registrations.filter((r) => r.pg_completed).length}
             </p>
           </div>
@@ -340,16 +400,16 @@ export default function AdminDashboard({
                       Full Name
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      College
+                      Email / Phone
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Stream
+                      College
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Company
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Position
+                      Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Registered
@@ -360,7 +420,7 @@ export default function AdminDashboard({
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredRegistrations.map((registration) => (
+                  {paginatedRegistrations.map((registration) => (
                     <tr
                       key={registration.id}
                       className="hover:bg-gray-50 transition-colors"
@@ -373,17 +433,53 @@ export default function AdminDashboard({
                           {registration.father_name}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {registration.college_joined}
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900">
+                          {registration.email || "N/A"}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {registration.phone_number || "N/A"}
+                        </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {registration.stream_taken}
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900">
+                          {registration.college_joined || "N/A"}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {registration.stream_taken || "N/A"}
+                        </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {registration.company_name}
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900">
+                          {registration.company_name || "N/A"}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {registration.position_role || "N/A"}
+                        </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {registration.position_role}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={registration.verified || false}
+                            onChange={() => toggleVerification(registration.id!, registration.verified || false)}
+                            disabled={updatingVerification === registration.id}
+                            className="sr-only peer"
+                          />
+                          <div className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 ${updatingVerification === registration.id ? 'opacity-50 cursor-not-allowed' : ''}`}></div>
+                          <span className={`ms-3 text-sm font-medium ${registration.verified ? 'text-green-700' : 'text-gray-500'}`}>
+                            {updatingVerification === registration.id ? (
+                              <span className="flex items-center">
+                                <svg className="animate-spin h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                              </span>
+                            ) : (
+                              registration.verified ? 'Verified' : 'Unverified'
+                            )}
+                          </span>
+                        </label>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {registration.created_at
@@ -408,6 +504,67 @@ export default function AdminDashboard({
             </div>
           )}
         </div>
+
+        {/* Pagination */}
+        {!loading && filteredRegistrations.length > 0 && (
+          <div className="bg-white rounded-lg shadow mt-4 px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-700">
+                Showing <span className="font-medium">{startIndex + 1}</span> to{" "}
+                <span className="font-medium">
+                  {Math.min(endIndex, filteredRegistrations.length)}
+                </span>{" "}
+                of <span className="font-medium">{filteredRegistrations.length}</span> results
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Previous
+                </button>
+                
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter(page => {
+                      // Show first page, last page, current page, and pages around current
+                      if (page === 1 || page === totalPages || 
+                          (page >= currentPage - 1 && page <= currentPage + 1)) {
+                        return true;
+                      }
+                      return false;
+                    })
+                    .map((page, index, array) => (
+                      <div key={page} className="flex items-center">
+                        {index > 0 && array[index - 1] !== page - 1 && (
+                          <span className="px-2 text-gray-500">...</span>
+                        )}
+                        <button
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                            currentPage === page
+                              ? "bg-primary-700 text-white"
+                              : "text-gray-700 hover:bg-gray-100 border border-gray-300"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      </div>
+                    ))}
+                </div>
+
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Detail Modal */}
@@ -441,10 +598,54 @@ export default function AdminDashboard({
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                    Email Address
+                  </h3>
+                  <p className="text-gray-900">{selectedRecord.email || "N/A"}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                    Phone Number
+                  </h3>
+                  <p className="text-gray-900">{selectedRecord.phone_number || "N/A"}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                    Verification Status
+                  </h3>
+                  <button
+                    onClick={() => toggleVerification(selectedRecord.id!, selectedRecord.verified || false)}
+                    disabled={updatingVerification === selectedRecord.id}
+                    className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                      selectedRecord.verified
+                        ? "bg-green-100 text-green-800 hover:bg-green-200"
+                        : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                    } ${updatingVerification === selectedRecord.id ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                  >
+                    {updatingVerification === selectedRecord.id ? (
+                      <span className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Updating...
+                      </span>
+                    ) : (
+                      selectedRecord.verified ? "✓ Verified - Click to Unverify" : "⚠ Unverified - Click to Verify"
+                    )}
+                  </button>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
+                    Selection Year
+                  </h3>
+                  <p className="text-gray-900">{selectedRecord.selection_year || "N/A"}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Course/Program
                   </h3>
                   <p className="text-gray-900">
-                    {selectedRecord.course_program}
+                    {selectedRecord.course_program || "N/A"}
                   </p>
                 </div>
                 <div>
