@@ -436,7 +436,7 @@ export default function LandingPage({
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary-200 rounded-full opacity-10 blur-3xl"></div>
             <div className="relative">
               <h3 className="text-3xl sm:text-4xl font-bold mb-4">
-                Why Join BANSALites?
+                Why Join Bansal Alumni Association?
               </h3>
               <div className="grid sm:grid-cols-2 gap-6 mb-8">
                 <div className="flex items-start space-x-3">
