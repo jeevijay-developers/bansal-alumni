@@ -126,7 +126,7 @@ export default function LandingPage({
                   <Users className="w-6 h-6 text-gray-700" />
                 </div>
                 <h5 className="text-3xl font-bold text-primary-900 mb-2">
-                  5000+
+                  26000+
                 </h5>
                 <p className="text-gray-700">Alumni Members</p>
               </div>
@@ -136,7 +136,7 @@ export default function LandingPage({
                   <Award className="w-6 h-6 text-gray-700" />
                 </div>
                 <h5 className="text-3xl font-bold text-primary-900 mb-2">
-                  95%
+                  56%
                 </h5>
                 <p className="text-gray-700">Success Rate</p>
               </div>
@@ -146,7 +146,7 @@ export default function LandingPage({
                   <Calendar className="w-6 h-6 text-gray-700" />
                 </div>
                 <h5 className="text-3xl font-bold text-primary-900 mb-2">
-                  50+
+                  20+
                 </h5>
                 <p className="text-gray-700">Events Annually</p>
               </div>
@@ -156,7 +156,7 @@ export default function LandingPage({
                   <Share2 className="w-6 h-6 text-gray-700" />
                 </div>
                 <h5 className="text-3xl font-bold text-primary-900 mb-2">
-                  1000+
+                  3500+
                 </h5>
                 <p className="text-gray-700">Connections Made</p>
               </div>

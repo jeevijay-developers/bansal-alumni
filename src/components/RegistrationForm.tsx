@@ -35,6 +35,8 @@ export default function RegistrationForm({
   const [formData, setFormData] = useState<AlumniRegistration>({
     full_name: "",
     father_name: "",
+    email: "",
+    phone_number: "",
     course_program: "",
     competitive_exam: "",
     bansal_study_year: "",
@@ -50,9 +52,9 @@ export default function RegistrationForm({
     company_name: "",
     currently_working: false,
     position_role: "",
-    work_from_year: new Date().getFullYear(),
+    work_from_year: null,
     work_to_year: null,
-    total_experience: 0,
+    total_experience: null,
     roles: [],
     industries: [],
     skills: [],
@@ -140,6 +142,8 @@ export default function RegistrationForm({
     setFormData({
       full_name: "",
       father_name: "",
+      email: "",
+      phone_number: "",
       course_program: "",
       competitive_exam: "",
       bansal_study_year: "",
@@ -155,9 +159,9 @@ export default function RegistrationForm({
       company_name: "",
       currently_working: false,
       position_role: "",
-      work_from_year: new Date().getFullYear(),
+      work_from_year: null,
       work_to_year: null,
-      total_experience: 0,
+      total_experience: null,
       roles: [],
       industries: [],
       skills: [],
@@ -266,17 +270,47 @@ export default function RegistrationForm({
                 </div>
               </div>
 
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email || ""}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your email address"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone_number"
+                    value={formData.phone_number || ""}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Course/Program You Pursued{" "}
-                  <span className="text-red-500">*</span>
+                  Course/Program You Pursued
                 </label>
                 <input
                   type="text"
                   name="course_program"
                   value={formData.course_program}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                   placeholder="e.g., B.Tech Computer Science"
                 />
@@ -284,14 +318,12 @@ export default function RegistrationForm({
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  In which year did you study at Bansal Classes?{" "}
-                  <span className="text-red-500">*</span>
+                  In which year did you study at Bansal Classes?
                 </label>
                 <select
                   name="bansal_study_year"
                   value={formData.bansal_study_year}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                 >
                   <option value="">Select Year</option>
@@ -305,13 +337,12 @@ export default function RegistrationForm({
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Competitive Exam <span className="text-red-500">*</span>
+                  Competitive Exam
                 </label>
                 <select
                   name="competitive_exam"
                   value={formData.competitive_exam}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                 >
                   <option value="">Select Exam</option>
@@ -363,14 +394,13 @@ export default function RegistrationForm({
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    College Joined <span className="text-red-500">*</span>
+                    College Joined
                   </label>
                   <input
                     type="text"
                     name="college_joined"
                     value={formData.college_joined}
                     onChange={handleInputChange}
-                    required
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                     placeholder="e.g., IIT Delhi"
                   />
@@ -378,14 +408,13 @@ export default function RegistrationForm({
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Stream Taken <span className="text-red-500">*</span>
+                    Stream Taken
                   </label>
                   <input
                     type="text"
                     name="stream_taken"
                     value={formData.stream_taken}
                     onChange={handleInputChange}
-                    required
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                     placeholder="e.g., Computer Science"
                   />
@@ -480,13 +509,12 @@ export default function RegistrationForm({
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Address <span className="text-red-500">*</span>
+                  Address
                 </label>
                 <textarea
                   name="address"
                   value={formData.address}
                   onChange={handleInputChange}
-                  required
                   rows={4}
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                   placeholder="Enter your complete address"
@@ -503,15 +531,13 @@ export default function RegistrationForm({
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Company / Organization Name{" "}
-                  <span className="text-red-500">*</span>
+                  Company / Organization Name
                 </label>
                 <input
                   type="text"
                   name="company_name"
                   value={formData.company_name}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                   placeholder="e.g., Google, Microsoft"
                 />
@@ -534,14 +560,13 @@ export default function RegistrationForm({
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Position / Role <span className="text-red-500">*</span>
+                  Position / Role
                 </label>
                 <input
                   type="text"
                   name="position_role"
                   value={formData.position_role}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                   placeholder="e.g., Senior Software Engineer"
                 />
@@ -550,14 +575,13 @@ export default function RegistrationForm({
               <div className="grid sm:grid-cols-3 gap-6">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    From Year <span className="text-red-500">*</span>
+                    From Year
                   </label>
                   <input
                     type="number"
                     name="work_from_year"
-                    value={formData.work_from_year}
+                    value={formData.work_from_year || ""}
                     onChange={handleInputChange}
-                    required
                     min="1990"
                     max={new Date().getFullYear()}
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
@@ -585,15 +609,13 @@ export default function RegistrationForm({
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Total Experience (Years){" "}
-                    <span className="text-red-500">*</span>
+                    Total Experience (Years)
                   </label>
                   <input
                     type="number"
                     name="total_experience"
-                    value={formData.total_experience}
+                    value={formData.total_experience || ""}
                     onChange={handleInputChange}
-                    required
                     min="0"
                     step="0.5"
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
