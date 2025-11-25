@@ -80,7 +80,7 @@ export default function AlumniDirectory({
             Verified Alumni Directory
           </p>
           <h3 className="text-2xl font-bold text-primary-900">
-            {alumni.length} members (contact details hidden for privacy)
+            {alumni.length} members
           </h3>
         </div>
         <div className="relative w-full sm:w-80">
