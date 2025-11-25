@@ -44,10 +44,6 @@ export default function RegistrationForm({
     exam_rank: null,
     college_joined: "",
     stream_taken: "",
-    pg_completed: false,
-    pg_stream: "",
-    pg_completion_year: null,
-    other_exams: "",
     address: "",
     linkedin_profile: "",
   });
@@ -117,10 +113,6 @@ export default function RegistrationForm({
       exam_rank: null,
       college_joined: "",
       stream_taken: "",
-      pg_completed: false,
-      pg_stream: "",
-      pg_completion_year: null,
-      other_exams: "",
       address: "",
       linkedin_profile: "",
     });
@@ -388,84 +380,6 @@ export default function RegistrationForm({
                     placeholder="e.g., Computer Science"
                   />
                 </div>
-              </div>
-            </section>
-
-            <section className="space-y-6">
-              <div className="border-l-4 border-blue-600 pl-4">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Post-Graduation Details
-                </h2>
-              </div>
-
-              <div className="grid sm:grid-cols-3 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    PG Completed?
-                  </label>
-                  <select
-                    name="pg_completed"
-                    value={formData.pg_completed ? "true" : "false"}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        pg_completed: e.target.value === "true",
-                      }))
-                    }
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                  >
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                  </select>
-                </div>
-
-                {formData.pg_completed && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        PG Stream Name
-                      </label>
-                      <input
-                        type="text"
-                        name="pg_stream"
-                        value={formData.pg_stream}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        placeholder="e.g., MBA"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        PG Completion Year
-                      </label>
-                      <input
-                        type="number"
-                        name="pg_completion_year"
-                        value={formData.pg_completion_year || ""}
-                        onChange={handleInputChange}
-                        min="1990"
-                        max={new Date().getFullYear()}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
-                        placeholder="Year"
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Other Competitive Exams
-                </label>
-                <input
-                  type="text"
-                  name="other_exams"
-                  value={formData.other_exams}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                  placeholder="e.g., GATE, CAT, UPSC"
-                />
               </div>
             </section>
 

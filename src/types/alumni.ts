@@ -9,10 +9,6 @@ export interface AlumniRegistration {
   exam_rank: number | null; // 1-15000 or null
   college_joined: string;
   stream_taken: string;
-  pg_completed: boolean;
-  pg_stream: string;
-  pg_completion_year: number | null;
-  other_exams: string;
   address: string;
   linkedin_profile: string;
   email?: string; // new: contact email

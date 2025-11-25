@@ -13,7 +13,11 @@ ALTER TABLE alumni_registrations
   DROP COLUMN IF EXISTS total_experience,
   DROP COLUMN IF EXISTS roles,
   DROP COLUMN IF EXISTS industries,
-  DROP COLUMN IF EXISTS skills;
+  DROP COLUMN IF EXISTS skills,
+  DROP COLUMN IF EXISTS pg_completed,
+  DROP COLUMN IF EXISTS pg_stream,
+  DROP COLUMN IF EXISTS pg_completion_year,
+  DROP COLUMN IF EXISTS other_exams;
 
 -- Ensure the latest columns are present
 ALTER TABLE alumni_registrations

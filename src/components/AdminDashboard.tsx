@@ -131,10 +131,6 @@ export default function AdminDashboard({
       "Exam Rank",
       "College Joined",
       "Stream Taken",
-      "PG Completed",
-      "PG Stream",
-      "PG Completion Year",
-      "Other Exams",
       "Address",
       "LinkedIn Profile",
       "Verified",
@@ -154,10 +150,6 @@ export default function AdminDashboard({
       reg.exam_rank || "",
       reg.college_joined || "",
       reg.stream_taken || "",
-      reg.pg_completed ? "Yes" : "No",
-      reg.pg_stream || "",
-      reg.pg_completion_year || "",
-      reg.other_exams || "",
       reg.address || "",
       reg.linkedin_profile || "",
       reg.verified ? "Yes" : "No",
@@ -347,10 +339,13 @@ export default function AdminDashboard({
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-sm font-semibold text-gray-600 mb-2">
-              PG Completed
+              Rank Submissions
             </h3>
             <p className="text-3xl font-bold text-purple-600">
-              {registrations.filter((r) => r.pg_completed).length}
+              {
+                registrations.filter((r) => typeof r.exam_rank === "number")
+                  .length
+              }
             </p>
           </div>
         </div>
