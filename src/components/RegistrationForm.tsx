@@ -13,6 +13,7 @@ export default function RegistrationForm({
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
 
   // Generate year ranges for Bansal study years (1981-82 to 2024-25)
   const generateBansalStudyYears = () => {
@@ -76,13 +77,41 @@ export default function RegistrationForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const email = formData.email?.trim();
+    if (!email) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    const normalizedPassword = password.trim();
+    if (!normalizedPassword) {
+      setError("Please choose a password to finish registration.");
+      return;
+    }
+    if (normalizedPassword.length < 6) {
+      setError("Password should be at least 6 characters long.");
+      return;
+    }
     setError(null);
     setIsSubmitting(true);
 
     try {
+      // Create Supabase auth user so the alum can later sign in with email/password
+      const { error: authError } = await supabase.auth.signUp({
+        email,
+        password: normalizedPassword,
+        options: {
+          data: {
+            full_name: formData.full_name,
+            phone_number: formData.phone_number,
+          },
+        },
+      });
+
+      if (authError) throw authError;
+
       const { error: submitError } = await supabase
         .from("alumni_registrations")
-        .insert([formData]);
+        .insert([{ ...formData, email }]);
 
       if (submitError) throw submitError;
 
@@ -116,6 +145,7 @@ export default function RegistrationForm({
       address: "",
       linkedin_profile: "",
     });
+    setPassword("");
     setError(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -136,7 +166,7 @@ export default function RegistrationForm({
           </p>
           <button
             onClick={onNavigateToHome}
-            className="inline-flex items-center space-x-2 bg-primary text-primary-50 px-8 py-3 rounded-lg hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center space-x-2 bg-primary-700 text-primary-50 px-8 py-3 rounded-lg hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Back to Home</span>
@@ -230,6 +260,22 @@ export default function RegistrationForm({
                     required
                     className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                     placeholder="Enter your email address"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Password <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    placeholder="Create a password"
+                    minLength={6}
                   />
                 </div>
 

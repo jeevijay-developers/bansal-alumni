@@ -3,15 +3,17 @@ import { FaBalanceScale, FaPeopleArrows } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 interface LandingPageProps {
   onNavigateToRegister: () => void;
+  onNavigateToConnect: () => void;
 }
 
 export default function LandingPage({
   onNavigateToRegister,
+  onNavigateToConnect,
 }: LandingPageProps) {
   return (
     <div className="min-h-screen ">
       <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <img
@@ -20,13 +22,21 @@ export default function LandingPage({
                 className="h-14 w-auto object-contain"
               />
             </div>
-            <button
-              onClick={onNavigateToRegister}
-              className="hidden sm:flex items-center space-x-2 bg-primary text-primary-700 px-6 py-2.5 rounded-lg hover:bg-primary-700 hover:text-white border-2 border-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              <span className="font-medium">Register as Alumni</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="hidden sm:flex items-center space-x-3">
+              <button
+                onClick={onNavigateToConnect}
+                className="inline-flex items-center space-x-2 border-2 border-primary-700 text-primary-700 px-5 py-2.5 rounded-lg hover:bg-primary-50 transition-all duration-300"
+              >
+                <span className="font-medium">Connect With Alumni</span>
+              </button>
+              <button
+                onClick={onNavigateToRegister}
+                className="inline-flex items-center space-x-2 bg-primary-700 text-primary-50 px-6 py-2.5 rounded-lg hover:bg-primary-800 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                <span className="font-medium">Register as Alumni</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -56,13 +66,22 @@ export default function LandingPage({
             ends — it simply evolves.
           </p>
 
-          <button
-            onClick={onNavigateToRegister}
-            className="inline-flex items-center space-x-3 text-white px-8 py-4 rounded-lg border-2 border-white shadow-2xl hover:shadow-white/50 transition-all duration-300 hover:scale-105 text-lg font-semibold"
-          >
-            <span>Register as Alumni</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={onNavigateToRegister}
+              className="inline-flex items-center space-x-3 text-white px-8 py-4 rounded-lg border-2 border-white shadow-2xl hover:shadow-white/50 transition-all duration-300 hover:scale-105 text-lg font-semibold"
+            >
+              <span>Register as Alumni</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+            <button
+              onClick={onNavigateToConnect}
+              className="inline-flex items-center space-x-3 text-primary-700 bg-white px-8 py-4 rounded-lg shadow-2xl hover:shadow-white/50 transition-all duration-300 hover:scale-105 text-lg font-semibold"
+            >
+              <span>Connect With Alumni</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </section>
 
@@ -502,13 +521,22 @@ export default function LandingPage({
             today and be part of a thriving community of thinkers, dreamers, and
             achievers.
           </p>
-          <button
-            onClick={onNavigateToRegister}
-            className="inline-flex items-center space-x-3 bg-primary text-primary-700 px-8 py-4 rounded-lg hover:bg-primary-700 hover:text-white border-2 border-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl text-lg font-semibold"
-          >
-            <span>Register Now</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={onNavigateToRegister}
+              className="inline-flex items-center space-x-3 bg-primary text-primary-50 px-8 py-4 rounded-lg hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl text-lg font-semibold"
+            >
+              <span>Register Now</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+            <button
+              onClick={onNavigateToConnect}
+              className="inline-flex items-center space-x-3 border-2 border-primary-700 text-primary-700 px-8 py-4 rounded-lg hover:bg-primary-50 transition-all duration-300 shadow-lg hover:shadow-xl text-lg font-semibold"
+            >
+              <span>Explore Alumni Network</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </section>
 
