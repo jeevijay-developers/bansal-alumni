@@ -49,20 +49,8 @@ export default function RegistrationForm({
     pg_completion_year: null,
     other_exams: "",
     address: "",
-    company_name: "",
-    currently_working: false,
-    position_role: "",
-    work_from_year: null,
-    work_to_year: null,
-    total_experience: null,
-    roles: [],
-    industries: [],
-    skills: [],
+    linkedin_profile: "",
   });
-
-  const [currentRole, setCurrentRole] = useState("");
-  const [currentIndustry, setCurrentIndustry] = useState("");
-  const [currentSkill, setCurrentSkill] = useState("");
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -76,9 +64,6 @@ export default function RegistrationForm({
       setFormData((prev) => ({
         ...prev,
         [name]: checked,
-        ...(name === "currently_working" && checked
-          ? { work_to_year: null }
-          : {}),
       }));
     } else if (type === "number") {
       setFormData((prev) => ({
@@ -91,25 +76,6 @@ export default function RegistrationForm({
         [name]: value,
       }));
     }
-  };
-
-  const addTag = (field: "roles" | "industries" | "skills", value: string) => {
-    if (value.trim() && !formData[field].includes(value.trim())) {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: [...prev[field], value.trim()],
-      }));
-    }
-  };
-
-  const removeTag = (
-    field: "roles" | "industries" | "skills",
-    index: number
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: prev[field].filter((_, i) => i !== index),
-    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,19 +122,8 @@ export default function RegistrationForm({
       pg_completion_year: null,
       other_exams: "",
       address: "",
-      company_name: "",
-      currently_working: false,
-      position_role: "",
-      work_from_year: null,
-      work_to_year: null,
-      total_experience: null,
-      roles: [],
-      industries: [],
-      skills: [],
+      linkedin_profile: "",
     });
-    setCurrentRole("");
-    setCurrentIndustry("");
-    setCurrentSkill("");
     setError(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -300,6 +255,20 @@ export default function RegistrationForm({
                     placeholder="Enter your phone number"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  LinkedIn Profile URL
+                </label>
+                <input
+                  type="url"
+                  name="linkedin_profile"
+                  value={formData.linkedin_profile}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                  placeholder="https://www.linkedin.com/in/your-profile"
+                />
               </div>
 
               <div>
@@ -519,256 +488,6 @@ export default function RegistrationForm({
                   className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                   placeholder="Enter your complete address"
                 />
-              </div>
-            </section>
-
-            <section className="space-y-6">
-              <div className="border-l-4 border-blue-600 pl-4">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Professional Details
-                </h2>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Company / Organization Name
-                </label>
-                <input
-                  type="text"
-                  name="company_name"
-                  value={formData.company_name}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                  placeholder="e.g., Google, Microsoft"
-                />
-              </div>
-
-              <div>
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="currently_working"
-                    checked={formData.currently_working}
-                    onChange={handleInputChange}
-                    className="w-5 h-5 text-primary-700 border-primary-200 rounded focus:ring-primary-500"
-                  />
-                  <span className="text-sm font-semibold text-gray-700">
-                    I'm currently working here
-                  </span>
-                </label>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Position / Role
-                </label>
-                <input
-                  type="text"
-                  name="position_role"
-                  value={formData.position_role}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                  placeholder="e.g., Senior Software Engineer"
-                />
-              </div>
-
-              <div className="grid sm:grid-cols-3 gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    From Year
-                  </label>
-                  <input
-                    type="number"
-                    name="work_from_year"
-                    value={formData.work_from_year || ""}
-                    onChange={handleInputChange}
-                    min="1990"
-                    max={new Date().getFullYear()}
-                    className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    placeholder="Year"
-                  />
-                </div>
-
-                {!formData.currently_working && (
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      To Year
-                    </label>
-                    <input
-                      type="number"
-                      name="work_to_year"
-                      value={formData.work_to_year || ""}
-                      onChange={handleInputChange}
-                      min="1990"
-                      max={new Date().getFullYear()}
-                      className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                      placeholder="Year"
-                    />
-                  </div>
-                )}
-
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Total Experience (Years)
-                  </label>
-                  <input
-                    type="number"
-                    name="total_experience"
-                    value={formData.total_experience || ""}
-                    onChange={handleInputChange}
-                    min="0"
-                    step="0.5"
-                    className="w-full px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    placeholder="e.g., 2.5"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Roles You Were In
-                </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={currentRole}
-                    onChange={(e) => setCurrentRole(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addTag("roles", currentRole);
-                        setCurrentRole("");
-                      }
-                    }}
-                    className="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    placeholder="e.g., Team Lead (press Enter to add)"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      addTag("roles", currentRole);
-                      setCurrentRole("");
-                    }}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
-                  >
-                    Add
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {formData.roles.map((role, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center space-x-2 bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      <span>{role}</span>
-                      <button
-                        type="button"
-                        onClick={() => removeTag("roles", index)}
-                        className="hover:text-blue-900"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Industries You Worked In
-                </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={currentIndustry}
-                    onChange={(e) => setCurrentIndustry(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addTag("industries", currentIndustry);
-                        setCurrentIndustry("");
-                      }
-                    }}
-                    className="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    placeholder="e.g., Technology (press Enter to add)"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      addTag("industries", currentIndustry);
-                      setCurrentIndustry("");
-                    }}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
-                  >
-                    Add
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {formData.industries.map((industry, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center space-x-2 bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      <span>{industry}</span>
-                      <button
-                        type="button"
-                        onClick={() => removeTag("industries", index)}
-                        className="hover:text-primary-900"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Professional Skills
-                </label>
-                <div className="flex gap-2 mb-2">
-                  <input
-                    type="text"
-                    value={currentSkill}
-                    onChange={(e) => setCurrentSkill(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addTag("skills", currentSkill);
-                        setCurrentSkill("");
-                      }
-                    }}
-                    className="flex-1 px-4 py-3 border border-primary-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
-                    placeholder="e.g., Python, Machine Learning (press Enter to add)"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      addTag("skills", currentSkill);
-                      setCurrentSkill("");
-                    }}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
-                  >
-                    Add
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {formData.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center space-x-2 bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      <span>{skill}</span>
-                      <button
-                        type="button"
-                        onClick={() => removeTag("skills", index)}
-                        className="hover:text-primary-900"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
               </div>
             </section>
 

@@ -27,7 +27,9 @@ export default function AdminDashboard({
     useState<AlumniRegistration | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [updatingVerification, setUpdatingVerification] = useState<number | null>(null);
+  const [updatingVerification, setUpdatingVerification] = useState<
+    number | null
+  >(null);
 
   // Check if user is already authenticated
   useEffect(() => {
@@ -95,8 +97,8 @@ export default function AdminDashboard({
       if (error) throw error;
 
       // Update local state
-      setRegistrations(prev =>
-        prev.map(reg =>
+      setRegistrations((prev) =>
+        prev.map((reg) =>
           reg.id === id ? { ...reg, verified: !currentStatus } : reg
         )
       );
@@ -134,15 +136,7 @@ export default function AdminDashboard({
       "PG Completion Year",
       "Other Exams",
       "Address",
-      "Company Name",
-      "Currently Working",
-      "Position/Role",
-      "Work From Year",
-      "Work To Year",
-      "Total Experience",
-      "Roles",
-      "Industries",
-      "Skills",
+      "LinkedIn Profile",
       "Verified",
       "Registration Date",
     ];
@@ -165,15 +159,7 @@ export default function AdminDashboard({
       reg.pg_completion_year || "",
       reg.other_exams || "",
       reg.address || "",
-      reg.company_name || "",
-      reg.currently_working ? "Yes" : "No",
-      reg.position_role || "",
-      reg.work_from_year || "",
-      reg.work_to_year || "",
-      reg.total_experience || "",
-      reg.roles?.join("; ") || "",
-      reg.industries?.join("; ") || "",
-      reg.skills?.join("; ") || "",
+      reg.linkedin_profile || "",
       reg.verified ? "Yes" : "No",
       reg.created_at ? new Date(reg.created_at).toLocaleString() : "",
     ]);
@@ -208,14 +194,17 @@ export default function AdminDashboard({
       reg.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       reg.phone_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       reg.college_joined?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      reg.company_name?.toLowerCase().includes(searchTerm.toLowerCase())
+      reg.linkedin_profile?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredRegistrations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedRegistrations = filteredRegistrations.slice(startIndex, endIndex);
+  const paginatedRegistrations = filteredRegistrations.slice(
+    startIndex,
+    endIndex
+  );
 
   // Reset to first page when search term changes
   useEffect(() => {
@@ -350,10 +339,10 @@ export default function AdminDashboard({
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-sm font-semibold text-gray-600 mb-2">
-              Currently Working
+              LinkedIn Profiles
             </h3>
             <p className="text-3xl font-bold text-blue-600">
-              {registrations.filter((r) => r.currently_working).length}
+              {registrations.filter((r) => r.linkedin_profile).length}
             </p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
@@ -374,7 +363,7 @@ export default function AdminDashboard({
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by name, college, or company..."
+              placeholder="Search by name, college, or LinkedIn..."
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
@@ -406,7 +395,7 @@ export default function AdminDashboard({
                       College
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Company
+                      LinkedIn
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
@@ -450,33 +439,76 @@ export default function AdminDashboard({
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900">
-                          {registration.company_name || "N/A"}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {registration.position_role || "N/A"}
-                        </div>
+                        {registration.linkedin_profile ? (
+                          <a
+                            href={registration.linkedin_profile}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-primary-700 hover:text-primary-900 underline"
+                          >
+                            View Profile
+                          </a>
+                        ) : (
+                          <span className="text-sm text-gray-500">
+                            Not provided
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={registration.verified || false}
-                            onChange={() => toggleVerification(registration.id!, registration.verified || false)}
+                            onChange={() =>
+                              toggleVerification(
+                                registration.id!,
+                                registration.verified || false
+                              )
+                            }
                             disabled={updatingVerification === registration.id}
                             className="sr-only peer"
                           />
-                          <div className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 ${updatingVerification === registration.id ? 'opacity-50 cursor-not-allowed' : ''}`}></div>
-                          <span className={`ms-3 text-sm font-medium ${registration.verified ? 'text-green-700' : 'text-gray-500'}`}>
+                          <div
+                            className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600 ${
+                              updatingVerification === registration.id
+                                ? "opacity-50 cursor-not-allowed"
+                                : ""
+                            }`}
+                          ></div>
+                          <span
+                            className={`ms-3 text-sm font-medium ${
+                              registration.verified
+                                ? "text-green-700"
+                                : "text-gray-500"
+                            }`}
+                          >
                             {updatingVerification === registration.id ? (
                               <span className="flex items-center">
-                                <svg className="animate-spin h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                <svg
+                                  className="animate-spin h-4 w-4 mr-1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  ></circle>
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  ></path>
                                 </svg>
                               </span>
+                            ) : registration.verified ? (
+                              "Verified"
                             ) : (
-                              registration.verified ? 'Verified' : 'Unverified'
+                              "Unverified"
                             )}
                           </span>
                         </label>
@@ -514,23 +546,32 @@ export default function AdminDashboard({
                 <span className="font-medium">
                   {Math.min(endIndex, filteredRegistrations.length)}
                 </span>{" "}
-                of <span className="font-medium">{filteredRegistrations.length}</span> results
+                of{" "}
+                <span className="font-medium">
+                  {filteredRegistrations.length}
+                </span>{" "}
+                results
               </div>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
                   disabled={currentPage === 1}
                   className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Previous
                 </button>
-                
+
                 <div className="flex items-center space-x-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1)
-                    .filter(page => {
+                    .filter((page) => {
                       // Show first page, last page, current page, and pages around current
-                      if (page === 1 || page === totalPages || 
-                          (page >= currentPage - 1 && page <= currentPage + 1)) {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
                         return true;
                       }
                       return false;
@@ -555,7 +596,9 @@ export default function AdminDashboard({
                 </div>
 
                 <button
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
                   disabled={currentPage === totalPages}
                   className="px-3 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
@@ -600,37 +643,68 @@ export default function AdminDashboard({
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Email Address
                   </h3>
-                  <p className="text-gray-900">{selectedRecord.email || "N/A"}</p>
+                  <p className="text-gray-900">
+                    {selectedRecord.email || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Phone Number
                   </h3>
-                  <p className="text-gray-900">{selectedRecord.phone_number || "N/A"}</p>
+                  <p className="text-gray-900">
+                    {selectedRecord.phone_number || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Verification Status
                   </h3>
                   <button
-                    onClick={() => toggleVerification(selectedRecord.id!, selectedRecord.verified || false)}
+                    onClick={() =>
+                      toggleVerification(
+                        selectedRecord.id!,
+                        selectedRecord.verified || false
+                      )
+                    }
                     disabled={updatingVerification === selectedRecord.id}
                     className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                       selectedRecord.verified
                         ? "bg-green-100 text-green-800 hover:bg-green-200"
                         : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-                    } ${updatingVerification === selectedRecord.id ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                    } ${
+                      updatingVerification === selectedRecord.id
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
                   >
                     {updatingVerification === selectedRecord.id ? (
                       <span className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg
+                          className="animate-spin -ml-1 mr-2 h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
                         </svg>
                         Updating...
                       </span>
+                    ) : selectedRecord.verified ? (
+                      "✓ Verified - Click to Unverify"
                     ) : (
-                      selectedRecord.verified ? "✓ Verified - Click to Unverify" : "⚠ Unverified - Click to Verify"
+                      "⚠ Unverified - Click to Verify"
                     )}
                   </button>
                 </div>
@@ -638,7 +712,9 @@ export default function AdminDashboard({
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
                     Selection Year
                   </h3>
-                  <p className="text-gray-900">{selectedRecord.selection_year || "N/A"}</p>
+                  <p className="text-gray-900">
+                    {selectedRecord.selection_year || "N/A"}
+                  </p>
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
@@ -672,33 +748,20 @@ export default function AdminDashboard({
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-gray-500 mb-1">
-                    Company
+                    LinkedIn Profile
                   </h3>
-                  <p className="text-gray-900">{selectedRecord.company_name}</p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
-                    Position
-                  </h3>
-                  <p className="text-gray-900">
-                    {selectedRecord.position_role}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
-                    Experience
-                  </h3>
-                  <p className="text-gray-900">
-                    {selectedRecord.total_experience} years
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500 mb-1">
-                    Currently Working
-                  </h3>
-                  <p className="text-gray-900">
-                    {selectedRecord.currently_working ? "Yes" : "No"}
-                  </p>
+                  {selectedRecord.linkedin_profile ? (
+                    <a
+                      href={selectedRecord.linkedin_profile}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-700 hover:text-primary-900 underline break-all"
+                    >
+                      {selectedRecord.linkedin_profile}
+                    </a>
+                  ) : (
+                    <p className="text-gray-900">Not provided</p>
+                  )}
                 </div>
               </div>
 
@@ -708,61 +771,6 @@ export default function AdminDashboard({
                 </h3>
                 <p className="text-gray-900">{selectedRecord.address}</p>
               </div>
-
-              {selectedRecord.roles && selectedRecord.roles.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500 mb-2">
-                    Roles
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedRecord.roles.map((role, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm"
-                      >
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {selectedRecord.industries &&
-                selectedRecord.industries.length > 0 && (
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-500 mb-2">
-                      Industries
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedRecord.industries.map((industry, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                        >
-                          {industry}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-              {selectedRecord.skills && selectedRecord.skills.length > 0 && (
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-500 mb-2">
-                    Skills
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedRecord.skills.map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>

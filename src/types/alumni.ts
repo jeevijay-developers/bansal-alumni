@@ -14,15 +14,7 @@ export interface AlumniRegistration {
   pg_completion_year: number | null;
   other_exams: string;
   address: string;
-  company_name: string;
-  currently_working: boolean;
-  position_role: string;
-  work_from_year: number | null;
-  work_to_year: number | null;
-  total_experience: number | null;
-  roles: string[];
-  industries: string[];
-  skills: string[];
+  linkedin_profile: string;
   email?: string; // new: contact email
   phone_number?: string; // new: contact phone number
   verified?: boolean; // admin verification status
